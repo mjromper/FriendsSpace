@@ -9,7 +9,7 @@ body {
   color: #999;
   font: 14px/1.5em "Lucida Grande", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
-  width: 720px;
+  width: 80%;
   margin: 20px;
 }
 
@@ -69,7 +69,7 @@ header .tagline {
 
 #share-app {
   float: right;
-  width: 344px;
+  width: 500px;
 }
 
 #share-app ul {

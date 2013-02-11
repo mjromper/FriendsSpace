@@ -2,6 +2,7 @@ GEM
   remote: http://rubygems.org/
   specs:
     addressable (2.2.7)
+    builder (3.1.4)
     crack (0.1.8)
     daemons (1.1.3)
     eventmachine (0.12.10)
@@ -17,7 +18,16 @@ GEM
       multi_json (~> 1.0)
     multi_json (1.0.3)
     multipart-post (1.1.5)
+    neography (0.0.24)
+      httparty (~> 0.7.8)
+      json
+      os
+      rake (>= 0.8.7)
+      rubyzip
+    os (0.9.6)
     rack (1.3.2)
+    rake (10.0.3)
+    rubyzip (0.9.9)
     sinatra (1.2.6)
       rack (~> 1.1)
       tilt (>= 1.2.2, < 2.0)
@@ -31,8 +41,10 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  builder
   httparty
   json
   koala
+  neography
   sinatra
   thin
