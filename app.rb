@@ -1,4 +1,4 @@
-require "sinatra"
+require 'sinatra'
 require 'koala'
 require 'logger'
 require 'neography'
@@ -105,37 +105,39 @@ get '/auth/facebook/callback' do
 end
 
 
-get '/o' do
+get '/graph' do
 
   # Get base API Connection
   @graph  = Koala::Facebook::API.new(session[:access_token])
   # Get public details of current application
   @app  =  @graph.get_object(ENV["FACEBOOK_APP_ID"])
 
-
   if (session[:access_token])
 
     @user    = @graph.get_object("me")
     @friends = @graph.get_connections('me', 'friends')
 
-    createGraph(@friends, @graph)
+    log.info("User #{@user['id']}")
+
+    createGraph(@friends, @graph, @user['id'])
 
     log.info("Done!")
+
   end
   erb :graph
 end
 
 
-def nodes
+def nodes(userID)
   neo = Neography::Rest.new
-  cypher_query =  " START node = node:nodes_index(type='User')"
+  cypher_query =  " START node = node:nodes_index_#{userID}(type='User')"
   cypher_query << " RETURN ID(node), node"
   neo.execute_query(cypher_query)["data"].collect{|n| {"id" => n[0]}.merge(n[1]["data"])}
 end
 
-def edges
+def edges(userID)
   neo = Neography::Rest.new
-  cypher_query =  " START source = node:nodes_index(type='User')"
+  cypher_query =  " START source = node:nodes_index_#{userID}(type='User')"
   cypher_query << " MATCH source -[rel]-> target"
   cypher_query << " RETURN ID(rel), ID(source), ID(target)"
   neo.execute_query(cypher_query)["data"].collect{|n| {"id" => n[0], "source" => n[1], "target" => n[2]} }
@@ -143,19 +145,42 @@ end
 
 
 get '/graph.xml' do
-  neo = Neography::Rest.new
-  @nodes = nodes
-  @edges = edges
-  builder :graph
+  # Get base API Connection
+  @graph  = Koala::Facebook::API.new(session[:access_token])
+  # Get public details of current application
+  @app  =  @graph.get_object(ENV["FACEBOOK_APP_ID"])
+
+  if (session[:access_token])
+
+    @user    = @graph.get_object("me")
+    userID = @user['id']
+    @nodes = nodes(userID)
+    @edges = edges(userID)
+    builder :graph
+  end
+
 end
 
 
-def createGraph(friends, graphAPI)
+def createGraph(friends, graphAPI, userID)
+
+  log = Logger.new('./logger.log')
+  log.level = Logger::DEBUG
+
   neo = Neography::Rest.new
   #neo.execute_script("g.clear();")
 
-  graph_exists = neo.get_node_properties(1)
-  return if graph_exists && graph_exists['name']
+  #graph_exists = neo.get_node_properties(1)
+  #if graph_exists && graph_exists['name']
+  #  log.info("Graph: #{graph_exists && graph_exists['name']}")
+  #  return graph_exists && graph_exists['name']
+  #end
+
+  nodes_exists = nodes(userID)
+  if (nodes_exists && !nodes_exists.empty?)
+    log.debug(nodes_exists)
+    return true
+  end
 
   commands = []
   sizes = {}
@@ -183,7 +208,7 @@ def createGraph(friends, graphAPI)
   end
 
   for n in 0..(friends.count()-1)
-    commands << [:add_node_to_index, "nodes_index", "type", "User", "{#{n}}"]
+    commands << [:add_node_to_index, "nodes_index_#{userID}", "type", "User", "{#{n}}"]
 
     mutuals[friends[n]['id']].each do |mutual_friend|
       from = indexes[friends[n]['id']]
