@@ -1,96 +1,98 @@
 <!DOCTYPE html>
 <html xmlns:fb="http://ogp.me/ns/fb#" lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=yes" />
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=yes" />
 
-    <title><%= @app['name'] %></title>
-    <link rel="stylesheet" href="stylesheets/screen.css" media="Screen" type="text/css" />
-    <link rel="stylesheet" href="stylesheets/mobile.css" media="handheld, only screen and (max-width: 480px), only screen and (max-device-width: 480px)" type="text/css" />
+  <title><%= @app['name'] %></title>
+  <link rel="stylesheet" href="stylesheets/screen.css" media="Screen" type="text/css" />
+  <link rel="stylesheet" href="stylesheets/mobile.css" media="handheld, only screen and (max-width: 480px), only screen and (max-device-width: 480px)" type="text/css" />
 
-    <!--[if IEMobile]>
-    <link rel="stylesheet" href="mobile.css" media="screen" type="text/css"  />
-    <![endif]-->
+  <link rel="stylesheet" href="stylesheets/bootstrap.css"  type="text/css"/>
+  <link rel="stylesheet" href="stylesheets/bootstrap-responsive.css" type="text/css" />
 
-    <!-- These are Open Graph tags.  They add meta data to your  -->
-    <!-- site that facebook uses when your content is shared     -->
-    <!-- over facebook.  You should fill these tags in with      -->
-    <!-- your data.  To learn more about Open Graph, visit       -->
-    <!-- 'https://developers.facebook.com/docs/opengraph/'       -->
-    <meta property="og:title" content="<%= @app['name'] %>" />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="<%= url %>" />
-    <meta property="og:image" content="<%= url('/logo.png') %>" />
-    <meta property="og:site_name" content="<%= @app['name'] %>" />
-    <meta property="og:description" content="My First App" />
-    <meta property="fb:app_id" content="<%= @app['name'] %>" />
+  <!--[if IEMobile]>
+  <link rel="stylesheet" href="stylesheets/mobile.css" media="screen" type="text/css"  />
+  <![endif]-->
 
-    <script type="text/javascript" src="/javascripts/jquery-1.7.1.min.js"></script>
+  <!-- These are Open Graph tags.  They add meta data to your  -->
+  <!-- site that facebook uses when your content is shared     -->
+  <!-- over facebook.  You should fill these tags in with      -->
+  <!-- your data.  To learn more about Open Graph, visit       -->
+  <!-- 'https://developers.facebook.com/docs/opengraph/'       -->
+  <meta property="og:title" content="<%= @app['name'] %>" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="<%= url %>" />
+  <meta property="og:image" content="<%= url('/logo.png') %>" />
+  <meta property="og:site_name" content="<%= @app['name'] %>" />
+  <meta property="og:description" content="My First App" />
+  <meta property="fb:app_id" content="<%= @app['name'] %>" />
 
-    <script type="text/javascript">
+  <script type="text/javascript" src="/javascripts/jquery-1.7.1.min.js"></script>
+
+  <script type="text/javascript">
       function logResponse(response) {
-        if (console && console.log) {
-          console.log('The response was', response);
-        }
+          if (console && console.log) {
+              console.log('The response was', response);
+          }
       }
 
       $(function(){
-        // Set up so we handle click on the buttons
-        $('#postToWall').click(function() {
-          FB.ui(
-            {
-              method : 'feed',
-              link   : $(this).attr('data-url')
-            },
-            function (response) {
-              // If response is null the user canceled the dialog
-              if (response != null) {
-                logResponse(response);
-              }
-            }
-          );
-        });
+          // Set up so we handle click on the buttons
+          $('#postToWall').click(function() {
+              FB.ui(
+                      {
+                          method : 'feed',
+                          link   : $(this).attr('data-url')
+                      },
+                      function (response) {
+                          // If response is null the user canceled the dialog
+                          if (response != null) {
+                              logResponse(response);
+                          }
+                      }
+              );
+          });
 
-        $('#sendToFriends').click(function() {
-          FB.ui(
-            {
-              method : 'send',
-              link   : $(this).attr('data-url')
-            },
-            function (response) {
-              // If response is null the user canceled the dialog
-              if (response != null) {
-                logResponse(response);
-              }
-            }
-          );
-        });
+          $('#sendToFriends').click(function() {
+              FB.ui(
+                      {
+                          method : 'send',
+                          link   : $(this).attr('data-url')
+                      },
+                      function (response) {
+                          // If response is null the user canceled the dialog
+                          if (response != null) {
+                              logResponse(response);
+                          }
+                      }
+              );
+          });
 
-        $('#sendRequest').click(function() {
-          FB.ui(
-            {
-              method  : 'apprequests',
-              message : $(this).attr('data-message')
-            },
-            function (response) {
-              // If response is null the user canceled the dialog
-              if (response != null) {
-                logResponse(response);
-              }
-            }
-          );
-        });
+          $('#sendRequest').click(function() {
+              FB.ui(
+                      {
+                          method  : 'apprequests',
+                          message : $(this).attr('data-message')
+                      },
+                      function (response) {
+                          // If response is null the user canceled the dialog
+                          if (response != null) {
+                              logResponse(response);
+                          }
+                      }
+              );
+          });
       });
-    </script>
+  </script>
 
-    <!--[if IE]>
-      <script type="text/javascript">
-        var tags = ['header', 'section'];
-        while(tags.length)
+  <!--[if IE]>
+  <script type="text/javascript">
+      var tags = ['header', 'section'];
+      while(tags.length)
           document.createElement(tags.pop());
-      </script>
-    <![endif]-->
-
+  </script>
+  <![endif]-->
 
 
     <script type="text/javascript" src="/javascripts/sigma.min.js"></script>
@@ -138,6 +140,7 @@
 
     <header class="clearfix">
       <% if @user %>
+          <span style="float:right" id="fbLogout"><a href="/sign_out"  class="fb_button fb_button_medium"><span class="fb_button_text">Logout</span></a></span>
           <p id="picture" style="background-image: url(https://graph.facebook.com/<%= @user['id'] %>/picture?type=normal)"></p>
           <div>
             <h1>Welcome, <strong><%= @user['name'] %></strong></h1>
@@ -229,5 +232,7 @@
 
   -->
     <script type="text/javascript" src="/javascripts/neo_sigma.js"></script>
+    <script src="http://code.jquery.com/jquery.js"></script>
+    <script src="/javascripts/bootstrap.min.js"> </script>
   </body>
 </html>
