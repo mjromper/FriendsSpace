@@ -130,14 +130,14 @@ end
 
 def nodes(userID)
   neo = Neography::Rest.new
-  cypher_query =  " START node = node:nodes_index_#{userID}(type='User')"
+  cypher_query =  " START node = node:nodes_index(type='User_#{userID}')"
   cypher_query << " RETURN ID(node), node"
   neo.execute_query(cypher_query)["data"].collect{|n| {"id" => n[0]}.merge(n[1]["data"])}
 end
 
 def edges(userID)
   neo = Neography::Rest.new
-  cypher_query =  " START source = node:nodes_index_#{userID}(type='User')"
+  cypher_query =  " START source = node:nodes_index(type='User_#{userID}')"
   cypher_query << " MATCH source -[rel]-> target"
   cypher_query << " RETURN ID(rel), ID(source), ID(target)"
   neo.execute_query(cypher_query)["data"].collect{|n| {"id" => n[0], "source" => n[1], "target" => n[2]} }
@@ -211,7 +211,7 @@ def createGraph(friends, graphAPI, userID)
   end
 
   for n in 0..(friends.count()-1)
-    commands << [:add_node_to_index, "nodes_index_#{userID}", "type", "User", "{#{n}}"]
+    commands << [:add_node_to_index, "nodes_index", "type", "User_#{userID}", "{#{n}}"]
 
     mutuals[friends[n]['id']].each do |mutual_friend|
       from = indexes[friends[n]['id']]
