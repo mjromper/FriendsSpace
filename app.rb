@@ -192,7 +192,7 @@ def createGraph(friends, graphAPI, userID)
 
   friends.each do |friend|
     mutuals[friend['id']] = graphAPI.get_connections("me","mutualfriends/#{friend['id']}")
-    peso = mutuals[friend['id']].count().to_f*100.to_f/friends.count().to_f
+    peso = mutuals[friend['id']].count().to_f*2*100.to_f/friends.count().to_f
     sizes[friend['id']]=peso
   end
 
