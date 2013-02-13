@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:fb="http://ogp.me/ns/fb#" lang="en">
+<head>
+<%= erb :head %>
+</head>
+<body>
+  
+  <%= erb :facebook_setup %>
+    
+    <header>
+      <% if @user %>
+          <span style="float:right" id="fbLogout"><a href="/sign_out"  class="fb_button fb_button_medium"><span class="fb_button_text">Logout</span></a></span>
+          <p id="picture" style="background-image: url(https://graph.facebook.com/<%= @user['id'] %>/picture?type=normal)">
+          </p>
+          <div>
+            <h3>Hello, <%= @user['name'] %> </h3>
+            <!--
+            <p class="tagline">
+              This is your app
+              <a href="<%= @app['@app'] %>"><%= @app['name'] %></a>
+            </p>
+            <div id="share-app">
+              <p>Share your app:</p>
+              <ul>
+                <li>
+                  <a href="#" class="facebook-button" id="postToWall" data-url="<%= url %>">
+                    <span class="plus">Post to Wall</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="#" class="facebook-button speech-bubble" id="sendToFriends" data-url="<%= url %>">
+                    <span class="speech-bubble">Send Message</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="#" class="facebook-button apprequests" id="sendRequest" data-message="Test this awesome app">
+                    <span class="apprequests">Send Requests</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+            -->
+          </div>
+      <% else %>
+        <div>
+          <h1>Welcome</h1>
+            <a href='/auth/facebook' class="fb_button fb_button_medium">
+              <span class="fb_button_text">Log In</span>
+            </a>
+        </div>
+
+
+      <% end %>
+    </header>
+
+
+    <% if @user %>
+      <p align="center">
+        <button class="btn btn-large btn-primary" onclick="location.href='./graph" >Generate you Graph</button >
+      </p>
+    <% end %>
+
+
+    <script src="http://code.jquery.com/jquery.js"></script>
+    <script src="/javascripts/bootstrap.min.js"> </script>
+
+  </body>
+</html>
