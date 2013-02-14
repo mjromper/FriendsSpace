@@ -1,4 +1,7 @@
 .env
+.idea
+logger.log
 log/
+neo4j
 .rvmrc
 .DS_Store
