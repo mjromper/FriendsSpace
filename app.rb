@@ -169,18 +169,13 @@ def createGraph(friends, graphAPI, userID)
 
   neo = Neography::Rest.new
   #neo.execute_script("g.clear();")
-
-  graph_exists = neo.get_node_properties(1)
-  if graph_exists && graph_exists['name']
-    log.info("Graph: #{graph_exists && graph_exists['name']}")
-    nodes_exists = nodes(userID)
-    if (nodes_exists && !nodes_exists.empty?)
-      log.debug(nodes_exists)
-      return true
-    else
-      log.debug("There is a graph but nothing for this user")
-    end
+  indexes = neo.list_node_indexes
+  if indexes && indexes["index_user_#{userID}"]
+    log.info("User #{userID} exists in database")
+    return true
   end
+
+
 
   log.debug("There is no graph at all")
 
