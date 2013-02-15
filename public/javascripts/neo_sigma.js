@@ -42,6 +42,14 @@ function init() {
   document.getElementById('rescale-graph').addEventListener('click',function(){
     sigInst.position(0,0,1).draw();
   },true);
+
+  document.getElementById('rescale-graph').addEventListener('click',function(){
+    sigInst.position(0,0,1).draw();
+  },true);
+
+  document.getElementById('generate_bt').addEventListener('click', function() {
+        console.log("Hello");
+  },true);
   
 }
 

@@ -2,105 +2,78 @@
 <html xmlns:fb="http://ogp.me/ns/fb#" lang="en">
 <head>
 <%= erb :head %>
-<style type="text/css">
-      body {
-        padding-top: 60px;
-        padding-bottom: 40px;
-      }
-      #share-app {
-        float: right;
-        width: 500px;
-      }
-
-      #share-app ul {
-        float: right;
-      }
-
-      #share-app p {
-        float: left;
-        margin-left: 8px;
-      }
-
-      #share-app li {
-        float: left;
-        list-style: none;
-        margin-left: 8px;
-      }
-
-      /* =buttons
---------------------------------------------- */
-.facebook-button:link, .facebook-button:visited {
-  background-color: #eee;
-  background-image: -moz-linear-gradient(top, #fdfdfd, #eaebeb);
-  background-image: -ms-linear-gradient(top, #fdfdfd, #eaebeb);
-  background-image: -o-linear-gradient(top, #fdfdfd, #eaebeb));
-  background-image: -webkit-gradient(linear, left top, left bottom, from(#fdfdfd), to(#eaebeb));
-  background-image: -webkit-linear-gradient(top, #fdfdfd, #eaebeb);
-  background-image: linear-gradient(top, #fdfdfd, #eaebeb);
-  border: 1px solid #a9a9a9;
-  -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, .1);
-  -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, .1);
-  box-shadow: 0 1px 0 rgba(0, 0, 0, .1);
-  color: #4f4f4f;
-  display: -moz-inline-box;
-  display: inline-block;
-  font-family: 'Lucida Grande', Tahoma, Verdana, Arial, sans-serif;
-  font-size: 11px;
-  font-weight: bold;
-  line-height: 20px;
-  margin: 0;
-  outline: none;
-  text-decoration: none;
-  text-shadow: 0 1px 1px rgba(255, 255, 255, .33);
-}
-
-.facebook-button span {
-  background: url("../images/sprites.png") no-repeat;
-  padding: 0 7px 0 21px;
-}
-
-.facebook-button .speech-bubble {
-  background-position: 6px 3px;
-}
-
-.facebook-button .plus {
-  background-position: 6px -17px;
-}
-
-.facebook-button .apprequests {
-  background-position: 6px -37px;
-}
-
-.button:link, .button:visited {
-  background-color: #7a90c0;
-  background-image: -moz-linear-gradient(top, #97afe2, #6073a1);
-  background-image: -ms-linear-gradient(top, #97afe2, #6073a1);
-  background-image: -o-linear-gradient(top, #97afe2, #6073a1);
-  background-image: -webkit-gradient(linear, left top, left bottom, from(#97afe2), to(#6073a1));
-  background-image: -webkit-linear-gradient(top, #97afe2, #6073a1);
-  background-image: linear-gradient(top, #97afe2, #6073a1);
-  border: none;
-  -moz-border-radius: 30px;
-  -webkit-border-radius: 30px;
-  border-radius: 30px;
-  -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, .5), 0 1px 1px rgba(255, 255, 255, .33) inset;
-  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .5), 0 1px 1px rgba(255, 255, 255, .33) inset;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, .5), 0 1px 1px rgba(255, 255, 255, .33) inset;
-  color: #1d222c;
-  display: inline-block;
-  font: bold 14px "Helvetica Neue", Helvetica, Arial, Geneva, sans-serif;
-  line-height: 32px;
-  padding: 0 25px;
-  text-decoration: none;
-  text-shadow: 0 1px 1px rgba(255, 255, 255, .2);
-}
-/* ------------------------------------------ */
-
-    </style>
     <script type="text/javascript" src="/javascripts/sigma.min.js"></script>
     <script type="text/javascript" src="/javascripts/sigma.parseGexf.js"></script>
     <script type="text/javascript" src="/javascripts/sigma.forceatlas2.js"></script>
-    <link type="text/css" rel="stylesheet" href="/stylesheets/neo_sigma.css"/>
+    <link type="text/css" rel="stylesheet" href="stylesheets/neo_sigma.css"/>
+    <script type="text/javascript"> 
+
+    function loadingButton(id) {
+      var opts = {
+          lines: 15,
+          // The number of lines to draw
+          length: 10,
+          // The length of each line
+          width: 2,
+          // The line thickness
+          radius: 6,
+          // The radius of the inner circle
+          corners: 1,
+          // Corner roundness (0..1)
+          rotate: 0,
+          // The rotation offset
+          color: '#fff',
+          // #rgb or #rrggbb
+          speed: 1,
+          // Rounds per second
+          trail: 60,
+          // Afterglow percentage
+          shadow: false,
+          // Whether to render a shadow
+          hwaccel: false,
+          // Whether to use hardware acceleration
+          className: 'spinner',
+          // The CSS class to assign to the spinner
+          zIndex: 2e9,
+          // The z-index (defaults to 2000000000)
+          top: 'auto',
+          // Top position relative to parent in px
+          left: '-10px' // Left position relative to parent in px
+      };
+
+    var target = document.getElementById(id);
+    console.log("hello");
+    //uncomment to put the button in enabled state
+    var btn = $("#" + id);
+    btn.html('Generating...');
+    
+    setTimeout(function() {
+        //btn.button('reset');
+    }, 5000);
+
+    //btn.button('reset');
+    btn.addClass('disabled');
+    btn.addClass('btn-spinning');
+
+    //clear the default loading text
+    btn.html('');
+
+    //create the spinner
+    var spinner = new Spinner(opts).spin();
+
+    //add the spinner to button
+    target.appendChild(spinner.el);
+}
+
+$(function() {
+    $("#generate_bt").live('click', function() {
+        if (!$(this).hasClass('disabled')) {
+            loadingButton($(this).attr('id'));
+        }
+    });
+});
+
+    </script>
 </head>
 <body>
   
@@ -134,9 +107,7 @@
       <div class="hero-unit">
         <h1>Welcome to FriendsSpace!</h1>
         <br />
-        <p>Have you ever thought about how your Facebook friends network look like? Visualise your friend's mutual connections and discover the shape of your social graph. </p>
-
-        <p>Login with your Facebook account and You will be surprised sailing through the Space of friends finding out how they are connected to each other!
+        <p>Have you ever thought about how your Facebook friends network look like? Visualise your friend's mutual connections and discover the shape of your social graph. Login with your Facebook account and You will be surprised sailing through the Space of friends finding out how they are connected to each other!
         </p>
         <% if @user %>
        
@@ -148,22 +119,23 @@
 
             <% if !@friends %>
             <p align="center">
-              <button class="btn btn-large btn-primary" onclick="location.href='./graph'">Generate your Graph</button >
+              <button id="generate_bt" class="btn btn-large btn-primary" onclick="location.href='./graph'">Generate your Graph</button >
             </p>
             <% end %>
           </div>
-      <% else %>
+        <% else %>
         <div>
             <a href='/auth/facebook' class="fb_button fb_button_medium">
               <span class="fb_button_text">Log In</span>
             </a>
         </div>
 
-      <% end %>
+        <% end %>
           
       </div>
 
       <% if @user && @friends%>
+      <script type="text/javascript" src="/javascripts/neo_sigma.js"></script>
       <!-- Example row of columns -->
       <div class="row">  
             <div id="share-app">
@@ -214,12 +186,7 @@
 
     </div>
 
-
-    <script src="http://code.jquery.com/jquery.js"></script>
     <script src="/javascripts/bootstrap.min.js"> </script>
-
-    <script type="text/javascript" src="/javascripts/neo_sigma.js"></script>
-
     <script type="text/javascript">
 
       var _gaq = _gaq || [];
